@@ -16,7 +16,7 @@ export interface ServerConfig {
 }
 
 const serverConfig: ServerConfig = {
-  port: 8000,
+  port: 2022,
   accessTokenExpiresIn: 15,
   refreshTokenExpiresIn: 60,
   redisCacheExpiresIn: 60,

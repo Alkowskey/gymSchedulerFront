@@ -3,7 +3,7 @@ import * as mongoDB from "mongodb";
 import * as dotenv from "dotenv";
 
 // Global Variables
-export const collections: { exercises?: mongoDB.Collection, users?: mongoDB.Collection } = {}
+export const collections: { exercises?: mongoDB.Collection, users?: mongoDB.Collection, workouts?: mongoDB.Collection } = {}
 
 // Initialize Connection
 
@@ -22,9 +22,11 @@ export async function connectToDatabase () {
    
     const exerciseCollection: mongoDB.Collection = db.collection(process.env.DB_COLLECTION_NAME);
     const userCollection: mongoDB.Collection = db.collection("users");
+    const workoutCollection: mongoDB.Collection = db.collection("workouts");
  
     collections.exercises = exerciseCollection;
     collections.users = userCollection;
+    collections.workouts = workoutCollection;
        
-    console.log(`Successfully connected to database: ${db.databaseName} and collection: ${exerciseCollection.collectionName}`);
+    console.log(`Successfully connected to database`);
  }

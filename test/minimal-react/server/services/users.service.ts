@@ -1,5 +1,6 @@
 import serverConfig from "../config/default";
 import User from "../models/user";
+import redisClient from "../util/connectRedis";
 import { signJwt } from "../util/jwt";
 import { collections } from "./database.service";
 
@@ -11,7 +12,7 @@ export const createUser = async (input: User) => {
 export const findUser = async (
     input: string
 ) => {
-    return await collections.users?.findOne({ email: input });
+    return await collections.users?.findOne({ email: input }) as User;
 };
 
 export const updateUser = async (
@@ -23,16 +24,16 @@ export const updateUser = async (
 
 export const signTokens = async (user: any) => { // TODO - fix that type casting
   // 1. Create Session
-  // redisClient.set(`${user.id}`, JSON.stringify(user), {
-    // EX: serverConfig.redisCacheExpiresIn * 60,
-  // });
+  redisClient.set(`${user._id}`, JSON.stringify(user), {
+    EX: serverConfig.redisCacheExpiresIn * 60,
+  });
 
   // 2. Create Access and Refresh tokens
-  const access_token = signJwt({ sub: user.id }, 'accessTokenPrivateKey', {
+  const access_token = signJwt({ sub: user._id }, 'accessTokenPrivateKey', {
     expiresIn: `${serverConfig.accessTokenExpiresIn}m`,
   });
 
-  const refresh_token = signJwt({ sub: user.id }, 'refreshTokenPrivateKey', {
+  const refresh_token = signJwt({ sub: user._id }, 'refreshTokenPrivateKey', {
     expiresIn: `${serverConfig.refreshTokenExpiresIn}m`,
   });
 

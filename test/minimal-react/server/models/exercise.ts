@@ -5,7 +5,7 @@ export default class Exercise {
         public excerise: string,
         public category: string,
         public description: string,
-        public id?: ObjectId
+        public _id?: ObjectId
     ){
     }
 }

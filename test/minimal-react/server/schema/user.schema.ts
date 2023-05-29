@@ -12,6 +12,8 @@ export const createUserSchema = object({
   message: 'Passwords do not match',
 });
 
+export const emptyQuerySchema = object({});
+
 export const loginUserSchema = object({
   email: string({ required_error: 'Email is required' }).email(
     'Invalid email or password'
